@@ -1,0 +1,6 @@
+# Ignorar node_modules y archivos de entorno
+node_modules/
+.env
+.vite/
+dist/
+*.log
