@@ -12,7 +12,7 @@ import {
     Alert
 } from 'react-bootstrap';
 import { PersonFill, TelephoneFill, GeoAltFill } from 'react-bootstrap-icons';
-import './Client.css';
+
 
 const Client = ({ client, setClient }) => {
     const [list, setList] = useState([]);

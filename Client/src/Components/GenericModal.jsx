@@ -24,11 +24,13 @@ const GenericModal = ({
         const value = formValues[field.name];
         const { required, validator, message } = field.validation;
 
+        // Solo validar si es requerido o si tiene valor
         if (required && !value) {
             return message || `${field.label} es requerido`;
         }
 
-        if (validator && !validator(value)) {
+        // Validar con el validador solo si hay valor (a menos que sea requerido)
+        if (validator && value && !validator(value)) {
             return message || `${field.label} no es válido`;
         }
 
