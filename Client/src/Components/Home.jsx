@@ -1,64 +1,65 @@
-import { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import { ServiceForm } from './ServiceForm';
+import React, { useState } from 'react';
+import { Button, Tabs, Tab, Container } from 'react-bootstrap';
 import { ServiceList } from './ServiceList';
+import { ServiceForm } from './ServiceForm';
 import { modalConfigurations } from './modalConfigurations';
+import { PencilFill, PrinterFill, Hammer, Tools } from 'react-bootstrap-icons';
 
+const serviceTypes = [
+    { key: 'design', label: 'Diseños', icon: PencilFill },
+    { key: 'impression', label: 'Impresiones', icon: PrinterFill },
+    { key: 'installation', label: 'Instalaciones', icon: Hammer },
+    { key: 'maintenance', label: 'Mantenimientos', icon: Tools }
+];
 export const Home = () => {
-    const [activeModal, setActiveModal] = useState(null);
-    const serviceTypes = Object.keys(modalConfigurations);
+    const [activeTab, setActiveTab] = useState('design');
+    const [showModal, setShowModal] = useState(false);
+    const [modalType, setModalType] = useState('design');
 
-    const handleShowModal = (type) => setActiveModal(type);
-    const handleCloseModal = () => setActiveModal(null);
+    const handleShowModal = (type) => {
+        setModalType(type);
+        setShowModal(true);
+    };
 
     return (
-        <div className="container py-4">
-            <h1 className="mb-4">Gestión de Servicios</h1>
-
-            {/* Botones para abrir los diferentes modales */}
-            <div className="d-flex flex-wrap gap-3 mb-4">
-                {serviceTypes.map(type => (
-                    <Button
-                        key={type}
-                        variant="primary"
-                        onClick={() => handleShowModal(type)}
-                        className="text-capitalize"
+        <Container className="py-4">
+            <Tabs
+                activeKey={activeTab}
+                onSelect={(k) => setActiveTab(k)}
+                className="mb-4"
+            >
+                {serviceTypes.map(({ key, label, icon: Icon }) => (
+                    <Tab
+                        key={key}
+                        eventKey={key}
+                        title={
+                            <span>
+                                <Icon className="me-2" />
+                                {label}
+                            </span>
+                        }
                     >
-                        {modalConfigurations[type].title}
-                    </Button>
-                ))}
-            </div>
+                        <div className="d-flex justify-content-end mb-3">
+                            <Button
+                                variant="primary"
+                                onClick={() => handleShowModal(key)}
+                            >
+                                <PencilFill className="me-2" />
+                                {modalConfigurations[key]?.options?.submitText || `Agregar ${label}`}
+                            </Button>
+                        </div>
 
-            {/* Modal genérico */}
-            <Modal show={!!activeModal} onHide={handleCloseModal} size="lg">
-                {activeModal && (
-                    <>
-                        <Modal.Header closeButton>
-                            <Modal.Title>
-                                {modalConfigurations[activeModal].title}
-                            </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <ServiceForm
-                                type={activeModal}
-                                onSuccess={handleCloseModal}
-                            />
-                        </Modal.Body>
-                    </>
-                )}
-            </Modal>
-
-            {/* Listados de servicios */}
-            <div className="mt-5">
-                {serviceTypes.map(type => (
-                    <div key={type} className="mb-5">
-                        <h2 className="h4 mb-3 text-capitalize">
-                            {modalConfigurations[type].title.replace('Nuevo ', '')}s
-                        </h2>
-                        <ServiceList type={`${type}s`} />
-                    </div>
+                        <ServiceList type={key} />
+                    </Tab>
                 ))}
-            </div>
-        </div>
+            </Tabs>
+
+            {showModal && (
+                <ServiceForm
+                    type={modalType}
+                    onClose={() => setShowModal(false)}
+                />
+            )}
+        </Container>
     );
 };

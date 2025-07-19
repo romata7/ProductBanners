@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export const useServices = () => {
     const [services, setServices] = useState({
@@ -11,11 +11,11 @@ export const useServices = () => {
     const addService = (type, data) => {
         setServices(prev => ({
             ...prev,
-            [type]: [...prev[type], {
+            [type]: [...(prev[type] || []), {
                 ...data,
                 id: Date.now(),
                 date: new Date().toLocaleString(),
-                total: data.quantity * data.cost
+                total: (data.quantity || 0) * (data.cost || 0)
             }]
         }));
     };
