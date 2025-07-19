@@ -9,6 +9,7 @@ export const useServices = () => {
     });
 
     const addService = (type, data) => {
+        console.log('Adding service:', type, data); // <-- Agrega esto
         setServices(prev => ({
             ...prev,
             [type]: [...(prev[type] || []), {

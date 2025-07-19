@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Importa Bootstrap
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Importa Bootstrap Icons
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
+  <StrictMode>    
+      <App />    
   </StrictMode>,
 )

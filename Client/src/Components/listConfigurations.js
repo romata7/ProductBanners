@@ -1,98 +1,44 @@
+import { commonColumns, commonSummaries } from './commonColumns';
+
 export const listConfigurations = {
     design: {
         columns: [
-            { field: 'quantity', header: 'Cantidad', width: '100px' },
-            {
-                field: 'dimensions',
-                header: 'Dimensiones',
-                format: item => `${item.width} × ${item.height} ${item.unit}`
-            },
-            { field: 'description', header: 'Descripción' },
-            {
-                field: 'cost',
-                header: 'Costo',
-                format: value => `S/${value.toFixed(2)}`,
-                align: 'right',
-                width: '120px'
-            },
-            {
-                field: 'total',
-                header: 'Total',
-                format: item => `S/${(item.quantity * item.cost).toFixed(2)}`,
-                align: 'right',
-                width: '120px'
-            }
+            commonColumns.quantity,
+            commonColumns.dimensions,
+            commonColumns.description,
+            commonColumns.cost,
+            commonColumns.total
         ],
-        summary: item => `Diseño: ${item.width}×${item.height}${item.unit} - ${item.description}`
+        summary: commonSummaries.withDimensions
     },
     impression: {
         columns: [
-            { field: 'quantity', header: 'Cantidad', width: '100px' },
-            {
-                field: 'dimensions',
-                header: 'Dimensiones',
-                format: item => `${item.width} × ${item.height} ${item.unit}`
-            },
-            { field: 'impression', header: 'Impresión' },
-            {
-                field: 'cost',
-                header: 'Costo',
-                format: value => `S/${value.toFixed(2)}`,
-                align: 'right',
-                width: '120px'
-            },
-            {
-                field: 'total',
-                header: 'Total',
-                format: item => `S/${(item.quantity * item.cost).toFixed(2)}`,
-                align: 'right',
-                width: '120px'
-            }
+            commonColumns.quantity,
+            commonColumns.dimensions,
+            { ...commonColumns.description, header: 'Impresión' },
+            commonColumns.cost,
+            commonColumns.total
         ],
-        summary: item => `Impresión: ${item.width}×${item.height}${item.unit} - ${item.description}`
+        summary: commonSummaries.withDimensions
     },
     installation: {
         columns: [
-            { field: 'quantity', header: 'Cantidad', width: '100px' },
-            { field: 'description', header: 'Descripción' },
-            { field: 'location', header: 'Ubicación' },
-            {
-                field: 'cost',
-                header: 'Costo',
-                format: value => `S/${value.toFixed(2)}`,
-                align: 'right',
-                width: '120px'
-            },
-            {
-                field: 'total',
-                header: 'Total',
-                format: item => `S/${(item.quantity * item.cost).toFixed(2)}`,
-                align: 'right',
-                width: '120px'
-            }
+            commonColumns.quantity,
+            commonColumns.description,
+            commonColumns.location,
+            commonColumns.cost,
+            commonColumns.total
         ],
-        summary: item => `Instalación: ${item.description}${item.location ? ` (${item.location})` : ''}`
+        summary: commonSummaries.withLocation
     },
     maintenance: {
         columns: [
-            { field: 'quantity', header: 'Cantidad', width: '100px' },
-            { field: 'maintenance', header: 'Mantenimiento' },
-            { field: 'location', header: 'Ubicación' },
-            {
-                field: 'cost',
-                header: 'Costo',
-                format: value => `S/${value.toFixed(2)}`,
-                align: 'right',
-                width: '120px'
-            },
-            {
-                field: 'total',
-                header: 'Total',
-                format: item => `S/${(item.quantity * item.cost).toFixed(2)}`,
-                align: 'right',
-                width: '120px'
-            }
+            commonColumns.quantity,
+            { ...commonColumns.description, header: 'Mantenimiento' },
+            commonColumns.location,
+            commonColumns.cost,
+            commonColumns.total
         ],
-        summary: item => `Instalación: ${item.description}${item.location ? ` (${item.location})` : ''}`
+        summary: commonSummaries.withLocation
     }
 };

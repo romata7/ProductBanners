@@ -1,12 +1,10 @@
 import { modalConfigurations } from "./modalConfigurations";
-import { useServices } from "./useServices";
 import { ModalForm } from "./ModalForm";
 
-export const ServiceForm = ({ type, onClose }) => {
+export const ServiceForm = ({ type, onClose, addService }) => {
     const config = modalConfigurations[type];
-    const { addService } = useServices();
 
-    const handleSubmit = (data) => {
+    const handleSubmit = (data) => {        
         addService(type, data);
         onClose();
     };

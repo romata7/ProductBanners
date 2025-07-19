@@ -2,7 +2,7 @@ import React from 'react';
 import { Table as BootstrapTable } from 'react-bootstrap';
 
 export const Table = ({ columns = [], data = [], rowKey = 'id' }) => {
-  // Si no hay datos, mostramos un mensaje
+
   if (data.length === 0) {
     return (
       <div className="alert alert-info">
@@ -16,9 +16,9 @@ export const Table = ({ columns = [], data = [], rowKey = 'id' }) => {
       <thead>
         <tr>
           {columns.map((column) => (
-            <th 
-              key={column.field} 
-              style={{ 
+            <th
+              key={column.field}
+              style={{
                 width: column.width || 'auto',
                 textAlign: column.align || 'left'
               }}
@@ -32,11 +32,11 @@ export const Table = ({ columns = [], data = [], rowKey = 'id' }) => {
         {data.map((item) => (
           <tr key={item[rowKey]}>
             {columns.map((column) => (
-              <td 
+              <td
                 key={`${item[rowKey]}-${column.field}`}
                 style={{ textAlign: column.align || 'left' }}
               >
-                {column.format 
+                {column.format
                   ? column.format(item[column.field] || item)
                   : item[column.field]
                 }
