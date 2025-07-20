@@ -1,17 +1,21 @@
 export const serviceModels = {
     design: {
         quantity: 1,
-        width: '',
-        height: '',
-        unit: 'cm',
+        dimensions: {
+            width: '',
+            height: '',
+            unit: 'cm'
+        },
         description: '',
         cost: ''
     },
     impression: {
         quantity: 1,
-        width: '',
-        height: '',
-        unit: 'cm',
+        dimensions: {
+            width: '',
+            height: '',
+            unit: 'cm'
+        },
         description: '',
         cost: ''
     },

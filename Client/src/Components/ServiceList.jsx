@@ -8,7 +8,9 @@ export const ServiceList = ({ services }) => {
     );
 
     if (Object.keys(newServices).length === 0) {
-        return <p>No hay servicios registrados</p>;
+        return <div className="alert alert-info">
+            No hay servicios registrados
+        </div>
     }
 
     return (

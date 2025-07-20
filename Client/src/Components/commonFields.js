@@ -39,6 +39,14 @@ export const commonFields = {
             required: false
         }
     },
+    notes: {
+        name: 'notes',
+        type: 'text',
+        label: 'Notas',
+        validation: {
+            required: false
+        }
+    },
     dimensions: [
         {
             name: 'width',
