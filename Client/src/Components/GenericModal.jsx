@@ -1,17 +1,17 @@
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap"
-import { services } from "./services"
+import { serviceMetadata } from "./serviceMetadata"
 import { commonFields } from "./commonFields"
 import { serviceModels } from "./serviceModels"
 import { useState } from "react"
 import { TextField, NumberField, TextareaField, SelectField } from "./Fields"
 
-const GenericModal = ({ type, showModal, handleClose, tratarDatos }) => {
+export const GenericModal = ({ type, showModal, handleClose, tratarDatos }) => {
 
-    const service = services[type]
+    const service = serviceMetadata[type]
     const [formData, setFormData] = useState(serviceModels[type]);
     const [errors, setErrors] = useState({})
 
-    const ServiceIcon = service.icon;
+    const ServiceIcon = service.Icon;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -63,7 +63,7 @@ const GenericModal = ({ type, showModal, handleClose, tratarDatos }) => {
     return (
         <Modal show={showModal} onHide={handleClose} size="md">
             <Modal.Header closeButton>
-                <Modal.Title><ServiceIcon /> {service.header}</Modal.Title>
+                <Modal.Title><ServiceIcon /> {service.displayName}</Modal.Title>
             </Modal.Header>
             <Form>
                 <Modal.Body>
@@ -119,6 +119,7 @@ const GenericModal = ({ type, showModal, handleClose, tratarDatos }) => {
                                 value={`S/${(parseFloat(formData.quantity || 0) * parseFloat(formData.cost || 0)).toFixed(2)}`}
                                 readOnly
                                 className="fs-4"
+                                tabIndex="-1"
                                 style={{
                                     backgroundColor: '#f8f9fa', // Color de fondo similar
                                     border: '1px solid #ced4da', // Borde idéntico
@@ -133,12 +134,10 @@ const GenericModal = ({ type, showModal, handleClose, tratarDatos }) => {
                         Cerrar
                     </Button>
                     <Button variant="primary" type="submit" onClick={handleFormSubmit}>
-                        Agregar {service.header}
+                        Agregar {service.displayName}
                     </Button>
                 </Modal.Footer>
             </Form>
         </Modal>
     )
 }
-
-export default GenericModal;

@@ -1,8 +1,8 @@
-import { Badge, ListGroup, Row, Col } from "react-bootstrap";
-import { GeoAltFill, Rulers } from "react-bootstrap-icons";
-import { icons } from "./icons";
+import { Badge, ListGroup } from "react-bootstrap";
+import { ChatLeftText, GeoAltFill, Rulers } from "react-bootstrap-icons";
+import { serviceMetadata } from "./serviceMetadata";
 
-export const ServiceList = ({ services }) => {
+export const ServiceList = ({ services, total = 0.00 }) => {
     const newServices = Object.fromEntries(
         Object.entries(services).filter(([_, value]) => value.length > 0)
     );
@@ -15,32 +15,46 @@ export const ServiceList = ({ services }) => {
 
     return (
         <>
-            {Object.entries(newServices).map(([serviceType, items]) => (
-                <ServiceSection
-                    key={serviceType}
-                    type={serviceType}
-                    items={items}
-                />
-            ))}
+            {Object.entries(newServices).map(([serviceType, items]) => {
+                const subTotal = items.reduce((sum, item) => sum + parseFloat(item.total || 0), 0);
+                return (
+                    <div key={serviceType}>
+                        <ServiceSection
+                            key={serviceType}
+                            type={serviceType}
+                            items={items}
+                        />
+                        <div className="text-end mb-3">
+                            <Badge bg="info" className="fs-6">
+                                Subtotal: S/{subTotal.toFixed(2)}
+                            </Badge>
+                        </div>
+                    </div>
+                )
+            })}
+
+            <div className="text-end mt-3">
+                <Badge bg="warning" className="fs-5 p-2" text="dark">
+                    Total: S/{parseFloat(total).toFixed(2)}
+                </Badge>
+            </div>
         </>
     );
 };
 
 const ServiceSection = ({ type, items }) => {
-    const ServiceIcon = icons[type]; // Obtenemos el componente de ícono correspondiente
+    const ServiceIcon = serviceMetadata[type].Icon;
 
     return (
-        <ListGroup className="mb-4 shadow-sm">
+        <ListGroup className="shadow-sm mb-1">
             {items.map((item, index) => (
                 <ListGroup.Item key={`${type}-${index}`} className="py-3">
                     <div className="d-flex gap-2 justify-content-between">
-
                         <div>
                             <h5 className="mb-1 d-flex align-items-center">
                                 <ServiceIcon className="me-2" />
                                 <span className="text-dark">{item.description}</span>
                             </h5>
-
                             <div className="d-flex flex-wrap gap-3 text-muted small">
                                 {item?.width && item?.height && item?.unit && (
                                     <span className="d-flex align-items-center">
@@ -70,11 +84,9 @@ const ServiceSection = ({ type, items }) => {
                                 )}
                             </div>
                         </div>
-
-
                         <div>
-                            <Badge pill bg="secondary" className="fs-6">
-                                {`Total: S/${parseFloat(item.total).toFixed(2)}`}
+                            <Badge bg="secondary" className="fs-7">
+                                {`S/${parseFloat(item.total).toFixed(2)}`}
                             </Badge>
                         </div>
                     </div>
