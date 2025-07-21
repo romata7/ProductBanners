@@ -8,13 +8,14 @@ export const Home = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState('design');
 
+    const handleCloseModal = () => setShowModal(false)
     const handleShowModal = (type) => {
-        setModalType(type);
-        setShowModal(true);
-    };
+        setModalType(type)
+        setShowModal(true)
+    }
 
-    const handleSubmit = () => {
-        console.log('Manejar handle Submit');
+    const tratarDatos = (data) => {
+        console.log(data);
         setShowModal(false)
     }
 
@@ -39,9 +40,9 @@ export const Home = () => {
             {showModal && (
                 <GenericModal
                     type={modalType}
-                    show={showModal}
-                    handleClose={() => setShowModal(false)}
-                    handleSubmit={handleSubmit}
+                    showModal={showModal}
+                    handleClose={handleCloseModal}
+                    tratarDatos={tratarDatos}
                 />
             )}
 

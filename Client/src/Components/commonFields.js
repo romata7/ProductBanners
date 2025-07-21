@@ -1,86 +1,93 @@
 export const commonFields = {
     quantity: {
-        name: 'quantity',
-        type: 'number',
-        label: 'Cantidad',
-        validation: {
+        attributes: {
+            name: 'quantity',
+            type: 'number',
+            label: 'Cantidad',
             required: true,
+            min: 1,
+        },
+        validation: {
             validator: value => Number.isInteger(Number(value)) && Number(value) > 0,
             message: 'Cantidad debe ser un entero positivo'
-        },
-        attributes: { min: 1 }
+        }
     },
     cost: {
-        name: 'cost',
-        type: 'number',
-        label: 'Costo',
-        validation: {
+        attributes: {
+            name: 'cost',
+            type: 'number',
+            label: 'Costo',
             required: true,
+            step: '0.01'
+        },
+        validation: {
             validator: value => !isNaN(Number(value)) && Number(value) >= 0,
             message: 'Costo debe ser positivo'
-        },
-        attributes: { step: '0.01' }
+        }
     },
     description: {
-        name: 'description',
-        type: 'text',
-        label: 'Descripción',
+        attributes: {
+            name: 'description',
+            type: 'textarea',
+            label: 'Descripción',
+            required: true
+        },
         validation: {
-            required: true,
             validator: value => value.trim() !== '',
             message: 'Descripción requerida'
         }
     },
     location: {
-        name: 'location',
-        type: 'text',
-        label: 'Ubicación',
-        validation: {
+        attributes: {
+            name: 'location',
+            type: 'text',
+            label: 'Ubicación',
             required: false
         }
     },
     notes: {
-        name: 'notes',
-        type: 'text',
-        label: 'Notas',
-        validation: {
+        attributes: {
+            name: 'notes',
+            type: 'textarea',
+            label: 'Notas',
             required: false
         }
     },
-    dimensions: [
-        {
+    width: {
+        attributes: {
             name: 'width',
             type: 'number',
             label: 'Ancho',
-            validation: {
-                required: true,
-                validator: value => !isNaN(Number(value)) && Number(value) >= 0,
-                message: 'Ancho debe ser positivo'
-            },
-            attributes: { step: '0.01' }
+            required: true,
+            step: '0.01'
         },
-        {
+        validation: {
+            validator: value => !isNaN(Number(value)) && Number(value) >= 0,
+            message: 'Ancho debe ser positivo'
+        }
+    },
+    height: {
+        attributes: {
             name: 'height',
             type: 'number',
             label: 'Alto',
-            validation: {
-                required: true,
-                validator: value => !isNaN(Number(value)) && Number(value) >= 0,
-                message: 'Alto debe ser positivo'
-            },
-            attributes: { step: '0.01' }
+            required: true,
+            step: '0.01'
         },
-        {
+        validation: {
+            validator: value => !isNaN(Number(value)) && Number(value) >= 0,
+            message: 'Alto debe ser positivo'
+        }
+    },
+    unit: {
+        attributes: {
             name: 'unit',
             type: 'select',
             label: 'Unidad',
-            validation: { required: true },
-            attributes: {
-                options: [
-                    { value: 'cm', label: 'Centímetros' },
-                    { value: 'm', label: 'Metros' }
-                ]
-            }
+            options: [
+                { value: 'cm', label: 'Centímetros' },
+                { value: 'm', label: 'Metros' }
+            ]
         }
-    ]
+    }
 };
