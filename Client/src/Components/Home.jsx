@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Button, Container } from 'react-bootstrap';
-import { Plus } from 'react-bootstrap-icons';
+import { Button, Card, Container } from 'react-bootstrap';
+import { JournalPlus, Plus } from 'react-bootstrap-icons';
 import { serviceMetadata } from './serviceMetadata';
 import { GenericModal } from './GenericModal';
 import { ServiceList } from './ServiceList';
@@ -44,31 +44,58 @@ export const Home = () => {
 
     return (
         <Container className="">
-            <h3 className='text-center mb-3'>Registrar Servicio</h3>
-            <Client client={client} setClient={setClient} />
-            <div className='d-flex gap-2 justify-content-around mb-3'>
-                {Object.entries(serviceMetadata).map(([key, service]) => {
-                    const ServiceIcon = service.Icon
-                    return (
-                        <Button
-                            key={key}
-                            variant='outline-primary'
-                            onClick={() => handleShowModal(key)}
-                        >
-                            <Plus /> <ServiceIcon /> {service.displayName}
-                        </Button>
-                    )
-                })}
-            </div>
-            {showModal && (
-                <GenericModal
-                    type={typeActive}
-                    showModal={showModal}
-                    handleClose={handleCloseModal}
-                    tratarDatos={tratarDatos}
-                />
-            )}
-            <ServiceList services={services} total={total} />
+            <Card className="shadow-sm mb-4">
+                <Card.Header className="bg-primary text-white d-flex align-items-center">
+                    <h5 className="mb-0 d-flex align-items-center gap-2">
+                        <JournalPlus />
+                        <span>Registrar Servicio</span>
+                    </h5>
+                </Card.Header>
+
+                <Card.Body className='p-4'>
+                    <Client client={client} setClient={setClient} />
+                    <div className='d-flex gap-2 justify-content-around mb-3'>
+                        {Object.entries(serviceMetadata).map(([key, service]) => {
+                            const ServiceIcon = service.Icon
+                            return (
+                                <Button
+                                    key={key}
+                                    variant='outline-primary'
+                                    onClick={() => handleShowModal(key)}
+                                >
+                                    <Plus /> <ServiceIcon /> {service.displayName}
+                                </Button>
+                            )
+                        })}
+                    </div>
+                    {showModal && (
+                        <GenericModal
+                            type={typeActive}
+                            showModal={showModal}
+                            handleClose={handleCloseModal}
+                            tratarDatos={tratarDatos}
+                        />
+                    )}
+                    <ServiceList services={services} total={total} />
+                </Card.Body>
+
+                <Card.Footer className="d-flex justify-content-end gap-2">
+                    <Button
+                        variant="outline-secondary"
+                        onClick={() => {/* función para limpiar */ }}
+                    >
+                        Limpiar
+                    </Button>
+                    <Button
+                        variant="primary"
+                        type="submit"
+                        disabled={true}
+                    >
+                        Registrar Servicio
+                    </Button>
+                </Card.Footer>
+            </Card>
+
         </Container>
     );
 };

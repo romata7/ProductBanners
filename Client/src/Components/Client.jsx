@@ -102,114 +102,110 @@ const Client = ({ client, setClient }) => {
     }
 
     return (
-        <Card className="shadow-sm mb-4">
-            <Card.Header className="bg-primary text-white">
-                <h5 className="mb-0">
-                    <PersonFill className="me-2" />
-                    Información del Cliente
-                </h5>
-            </Card.Header>
-            <Card.Body>
-                {error && (
-                    <Alert variant="danger" dismissible onClose={() => setError(null)}>
-                        {error}
-                    </Alert>
+        <div className='mb-3'>
+            <h5 className="mb-3">
+                <PersonFill className="me-2" />
+                Información del Cliente
+            </h5>
+            {error && (
+                <Alert variant="danger" dismissible onClose={() => setError(null)}>
+                    {error}
+                </Alert>
+            )}
+
+            <Form.Group className="mb-3 position-relative">
+                <FloatingLabel controlId="dniruc" label="D.N.I./RUC">
+                    <Form.Control
+                        ref={inputRef}
+                        type="text"
+                        name="dniruc"
+                        value={client?.dniruc || ""}
+                        onKeyUp={handleOnKeyUp}
+                        onChange={handleChange}
+                        onFocus={() => setShowSuggestions(true)}
+                        onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                        autoFocus
+                        autoComplete="off"
+                        maxLength={11}
+                        placeholder=" "
+                    />
+                </FloatingLabel>
+
+                {loading && (
+                    <div className="position-absolute end-0 top-0 mt-3 me-2">
+                        <Spinner animation="border" size="sm" />
+                    </div>
                 )}
 
-                <Form.Group className="mb-3 position-relative">
-                    <FloatingLabel controlId="dniruc" label="D.N.I./RUC">
-                        <Form.Control
-                            ref={inputRef}
-                            type="text"
-                            name="dniruc"
-                            value={client?.dniruc || ""}
-                            onKeyUp={handleOnKeyUp}
-                            onChange={handleChange}
-                            onFocus={() => setShowSuggestions(true)}
-                            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                            autoFocus
-                            autoComplete="off"
-                            maxLength={11}
-                            placeholder=" "
-                        />
-                    </FloatingLabel>
+                {showSuggestions && list.length > 0 && (
+                    <ListGroup className="position-absolute w-100 mt-1 shadow" style={{ zIndex: 1000 }}>
+                        {list.map((listClient) => (
+                            <ListGroup.Item
+                                key={listClient.dniruc}
+                                action
+                                onClick={() => handleClientClick(listClient)}
+                                className="d-flex justify-content-between align-items-center"
+                            >
+                                <div>
+                                    <PersonFill className="me-2 text-primary" />
+                                    <Badge bg="light" text="dark" className="me-2">
+                                        {listClient.dniruc}
+                                    </Badge>
+                                    {listClient.nombrers}
+                                </div>
+                                <small className="text-muted">Click para seleccionar</small>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                )}
+            </Form.Group>
 
-                    {loading && (
-                        <div className="position-absolute end-0 top-0 mt-3 me-2">
-                            <Spinner animation="border" size="sm" />
-                        </div>
-                    )}
+            <FloatingLabel controlId="nombrers" label="Nombre/Razón Social" className="mb-3">
+                <Form.Control
+                    type="text"
+                    name="nombrers"
+                    value={client?.nombrers || ""}
+                    onChange={handleChange}
+                    placeholder=" "
+                />
+            </FloatingLabel>
 
-                    {showSuggestions && list.length > 0 && (
-                        <ListGroup className="position-absolute w-100 mt-1 shadow" style={{ zIndex: 1000 }}>
-                            {list.map((listClient) => (
-                                <ListGroup.Item
-                                    key={listClient.dniruc}
-                                    action
-                                    onClick={() => handleClientClick(listClient)}
-                                    className="d-flex justify-content-between align-items-center"
-                                >
-                                    <div>
-                                        <PersonFill className="me-2 text-primary" />
-                                        <Badge bg="light" text="dark" className="me-2">
-                                            {listClient.dniruc}
-                                        </Badge>
-                                        {listClient.nombrers}
-                                    </div>
-                                    <small className="text-muted">Click para seleccionar</small>
-                                </ListGroup.Item>
-                            ))}
-                        </ListGroup>
-                    )}
-                </Form.Group>
+            <FloatingLabel controlId="direccion" label="Dirección" className="mb-3">
+                <Form.Control
+                    type="text"
+                    name="direccion"
+                    value={client?.direccion || ""}
+                    onChange={handleChange}
+                    placeholder=" "
+                />
+            </FloatingLabel>
 
-                <FloatingLabel controlId="nombrers" label="Nombre/Razón Social" className="mb-3">
+            <InputGroup className="mb-3">
+                <FloatingLabel controlId="telefono" label="Teléfono/Celular">
                     <Form.Control
-                        type="text"
-                        name="nombrers"
-                        value={client?.nombrers || ""}
+                        type="tel"
+                        name="telefono"
+                        value={client?.telefono || ""}
                         onChange={handleChange}
                         placeholder=" "
+                        maxLength={15}
                     />
                 </FloatingLabel>
+                <InputGroup.Text>
+                    <TelephoneFill />
+                </InputGroup.Text>
+            </InputGroup>
 
-                <FloatingLabel controlId="direccion" label="Dirección" className="mb-3">
-                    <Form.Control
-                        type="text"
-                        name="direccion"
-                        value={client?.direccion || ""}
-                        onChange={handleChange}
-                        placeholder=" "
-                    />
-                </FloatingLabel>
-
-                <InputGroup className="mb-3">
-                    <FloatingLabel controlId="telefono" label="Teléfono/Celular">
-                        <Form.Control
-                            type="tel"
-                            name="telefono"
-                            value={client?.telefono || ""}
-                            onChange={handleChange}
-                            placeholder=" "
-                            maxLength={15}
-                        />
-                    </FloatingLabel>
-                    <InputGroup.Text>
-                        <TelephoneFill />
-                    </InputGroup.Text>
-                </InputGroup>
-
-                <div className="d-flex justify-content-end">
-                    <Button
-                        variant="outline-danger"
-                        onClick={resetClient}
-                        size="sm"
-                    >
-                        Limpiar Campos
-                    </Button>
-                </div>
-            </Card.Body>
-        </Card>
+            <div className="d-flex justify-content-end">
+                <Button
+                    variant="outline-danger"
+                    onClick={resetClient}
+                    size="sm"
+                >
+                    Limpiar Campos
+                </Button>
+            </div>
+        </div>
     );
 };
 
